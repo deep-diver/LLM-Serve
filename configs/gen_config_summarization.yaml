@@ -1,0 +1,10 @@
+generation_config:
+    temperature: 0.90
+    top_p: 0.75
+    num_beams: 1
+    use_cache: True
+    max_length: 1000
+    min_length: 50
+    
+    
+    
