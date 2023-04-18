@@ -12,14 +12,20 @@ def build_prompt(ppmanager, user_message, win_size=2):
     lws = CtxLastWindowStrategy(win_size)
     
     lws_result = lws(dummy_ppm)
-    lws_result = lws_result.replace("### Instruction:\n", "<Human> ")
-    lws_result = lws_result.replace("### Response:\n", "<LLaMA> ")
+    lws_result = lws_result.replace("### Instruction:\n", "I said to you as: ")
+    lws_result = lws_result.replace("### Response:\n", "You responded back to me as: ")
     if lws_result != "":
-        lws_result = f''' Below is recent conversation between you(LLaMA) and me from top to bottom. Take them into account, but do not repeat as is.
-"{lws_result}"
-'''
+        lws_result = f'''Given the recent conversation between you and me of "
+-----
+{lws_result}
+-----"
+the global context of this conversations is as follow in your perspective of "'''
     
-    dummy_ppm.ctx += lws_result
+    if dummy_ppm.ctx:
+        dummy_ppm.ctx = lws_result + dummy_ppm.ctx + '"'
+    else:
+        dummy_ppm.ctx = lws_result + dummy_ppm.ctx
+        
     prompts = dummy_ppm.add_ping(user_message)    
     return prompts
 
@@ -36,7 +42,7 @@ def summarize(ppmanager):
     ctx = ppmanager.ctx
     pong = ppmanager.pingpongs[-1].pong
     if ctx is None or ctx == "":
-        ping = f'given the context of "{ctx}", extract context from the <LLaMA>\'s response "{pong}". be clear about who is LLaMA and its response.'
+        ping = f'given the context of "{ctx}", summarize your response of "{pong}"'
     else:
         ping = f'summarize "{pong}"'
     prompt = ppmanager.add_ping(ping)
@@ -64,18 +70,18 @@ def chat_stream(user_message, state):
 
     # handling stream
     for ppmanager, uis in text_stream(ppm, streamer):
-        yield "", uis, state
+        yield "", uis, prompt, state
 
     ppm = post.strip_pong(ppm)
-    yield "", ppm.build_uis(), state
+    yield "", ppm.build_uis(), prompt, state
     
     # summarization
     ppm.add_pingpong(
         PingPong(None, "![](https://s2.gifyu.com/images/icons8-loading-circle.gif)")
     )
-    yield "", ppm.build_uis(), state
+    yield "", ppm.build_uis(), prompt, state
     ppm.pop_pingpong()
     
     ppm = summarize(ppm)
     state["ppmanager"] = ppm
-    yield "", ppm.build_uis(), state
+    yield "", ppm.build_uis(), prompt, state
