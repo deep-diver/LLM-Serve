@@ -8,4 +8,5 @@ This repository provides a generalized serving framework to serve LLM based appl
 - [ ] Support GPT-Alpaca based application
 - [ ] Support Flan based application
 - [ ] Support Dolly based application
+- [ ] Support backend only option (w/ FastAPI)
 
