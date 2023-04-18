@@ -9,4 +9,5 @@ This repository provides a generalized serving framework to serve LLM based appl
 - [ ] Support Flan based application
 - [ ] Support Dolly based application
 - [ ] Support backend only option (w/ FastAPI)
+- [ ] Dockerfile
 
