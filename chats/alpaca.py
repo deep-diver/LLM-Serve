@@ -77,7 +77,7 @@ def chat_stream(user_message, state):
     
     # summarization
     ppm.add_pingpong(
-        PingPong(None, "![](https://s2.gifyu.com/images/icons8-loading-circle.gif)")
+        PingPong(None, "![](https://i.postimg.cc/ZKNKDPBd/Vanilla-1s-209px.gif)")
     )
     yield "", ppm.build_uis(), prompt, state
     ppm.pop_pingpong()
