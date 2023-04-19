@@ -1,10 +1,11 @@
 generation_config:
     temperature: 0.90
     top_p: 0.75
-    num_beams: 1
+    top_k: 50
+    num_beams: 2
     use_cache: True
-    max_length: 1000
+    max_new_tokens: 64
     min_length: 50
-    
+    do_sample: True
     
     

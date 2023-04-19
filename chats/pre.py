@@ -42,11 +42,11 @@ def start_gen(gen_kwargs):
     )
     t.start()
     
-def build(prompt, gen_config):
+def build(prompt, gen_config_raw):
     model_inputs = build_model_inputs(prompt)
     streamer = build_streamer()
     gen_kwargs = build_gen_kwargs(
-        global_vars.gen_config_raw, 
+        gen_config_raw, 
         model_inputs, streamer
     )
     return gen_kwargs, streamer

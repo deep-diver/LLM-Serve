@@ -32,8 +32,7 @@ def toggle_inspector(view_selector):
 
 def run(args):
     global_vars.initialize_globals(args)
-    batch_enabled = global_vars.batch_enabled
-    chat_interface = get_chat_interface(global_vars.model_type, batch_enabled)
+    chat_interface = get_chat_interface(global_vars.model_type)
     
     with gr.Blocks(css=PARENT_BLOCK_CSS, theme='ParityError/Anime') as demo:
         chat_state = gr.State({
@@ -74,8 +73,6 @@ def run(args):
             chat_interface,
             [instruction_txtbox, chat_state],
             [instruction_txtbox, chatbot, inspector, chat_state],
-            batch=batch_enabled,
-            max_batch_size=args.batch_size,
         )
         
         cancel_btn.click(

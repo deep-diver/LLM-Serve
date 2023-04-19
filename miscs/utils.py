@@ -1,26 +1,8 @@
 import re
-import yaml
-
-from transformers import GenerationConfig
-from chats.constraints import ConstraintsConfig
 
 from miscs.strings import SPECIAL_STRS
 from miscs.constants import html_tag_pattern, multi_line_pattern, multi_space_pattern
 from miscs.constants import repl_empty_str, repl_br_tag, repl_span_tag_multispace, repl_linebreak
-
-def get_constraints_config(path):
-    with open(path, 'rb') as f:
-        constraints_config = yaml.safe_load(f.read())
-        
-    return ConstraintsConfig(**constraints_config), constraints_config["constraints"]
-
-def get_generation_config(path):
-    with open(path, 'rb') as f:
-        generation_config = yaml.safe_load(f.read())
-        
-    generation_config = generation_config["generation_config"]
-
-    return GenerationConfig(**generation_config), generation_config
 
 # applicable to instruction to be displayed as well
 def common_post_process(original_str):

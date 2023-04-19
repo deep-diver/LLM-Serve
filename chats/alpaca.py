@@ -65,7 +65,7 @@ def chat_stream(user_message, state):
     print(prompt)
     
     # prepare text generating streamer & start generating
-    gen_kwargs, streamer = pre.build(prompt, global_vars.gen_config)
+    gen_kwargs, streamer = pre.build(prompt, global_vars.gen_config_raw)
     pre.start_gen(gen_kwargs)
 
     # handling stream
