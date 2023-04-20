@@ -29,7 +29,7 @@ def build_prompt(ppmanager, user_message, win_size=2):
     dummy_ppm.pop_pingpong()
     lws = CtxLastWindowStrategy(win_size)
     
-    lws_result = lws(dummy_ppm)
+    lws_result = lws(dummy_ppm, truncate_size=200)
     prompts = dummy_ppm.add_ping(user_message)
     print(f"lws_result: {lws_result}")
     print(f"prompts: {prompts}")
