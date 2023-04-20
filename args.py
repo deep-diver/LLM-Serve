@@ -66,5 +66,9 @@ def parse_args():
         help="Force to download ckpt instead of using cached one",
         action="store_true"
     )
+    parser.add_argument(
+        "--chat-only-mode",
+        help="Only show chatting window. Otherwise, other components will be appeared for more sophisticated control"
+    )
     
     return parser.parse_args()

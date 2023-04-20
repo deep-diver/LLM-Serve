@@ -45,6 +45,7 @@ def run(args):
                 value="without context inspector",
                 label="View Selector", 
                 info="How do you like to use this application?"
+                visible=args.chat_only_mode
             )
             
             with gr.Row():
@@ -60,7 +61,7 @@ def run(args):
                     gr.Markdown("#### What model actually sees")
                     inspector = gr.Textbox(label="", lines=28, max_lines=28, interactive=False)
 
-            with gr.Accordion("Acknowledgements", open=False):
+            with gr.Accordion("Acknowledgements", open=False, visible=args.chat_only_mode):
                 gr.Markdown(f"{BOTTOM_LINE}")
 
         view_selector.change(
