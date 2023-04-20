@@ -26,11 +26,13 @@ def build_streamer(
 def build_gen_kwargs(
     gen_config,
     model_inputs,
-    streamer
+    streamer,
+    stopping_criteria
 ):
     gen_kwargs = dict(
         model_inputs,
         streamer=streamer,
+        stopping_criteria=stopping_criteria
     )
     gen_kwargs.update(gen_config)
     return gen_kwargs 
@@ -42,11 +44,13 @@ def start_gen(gen_kwargs):
     )
     t.start()
     
-def build(prompt, gen_config_raw):
+def build(prompt, gen_config_raw, stopping_criteria=None):
     model_inputs = build_model_inputs(prompt)
     streamer = build_streamer()
     gen_kwargs = build_gen_kwargs(
         gen_config_raw, 
-        model_inputs, streamer
+        model_inputs, 
+        streamer,
+        stopping_criteria
     )
     return gen_kwargs, streamer

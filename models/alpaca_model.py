@@ -6,8 +6,8 @@ def load_model(base, finetuned, multi_gpu, force_download_ckpt):
     tokenizer = LlamaTokenizer.from_pretrained(base)
     tokenizer.pad_token_id = 0
     tokenizer.padding_side = "left"
-    tokenizer.bos_token_id=1
-    tokenizer.eos_token_id=2
+    # tokenizer.bos_token_id=1
+    # tokenizer.eos_token_id=2
 
     if not multi_gpu:
         model = LlamaForCausalLM.from_pretrained(

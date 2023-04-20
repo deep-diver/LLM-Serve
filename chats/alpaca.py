@@ -30,8 +30,6 @@ the global context of this conversations is as follow in your perspective of "''
     return prompts
 
 def text_stream(ppmanager, streamer):
-    sandbox = ""
-    sandbox_enabled = False
     for new_text in streamer:
         ppmanager.append_pong(new_text)
         yield ppmanager, ppmanager.build_uis()

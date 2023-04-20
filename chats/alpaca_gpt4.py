@@ -11,7 +11,7 @@ def build_prompt(ppmanager, user_message, win_size=2):
     dummy_ppm.pop_pingpong()
     lws = CtxLastWindowStrategy(win_size)
     
-    lws_result = lws(dummy_ppm)
+    lws_result = lws(dummy_ppm, truncate_size=100)
     lws_result = lws_result.replace("### Instruction:\n", "I said to you as: ")
     lws_result = lws_result.replace("### Response:\n", "You responded back to me as: ")
     if lws_result != "":
@@ -72,7 +72,8 @@ def text_stream(ppmanager, streamer):
             sandbox = new_text
         elif "Instruction:" in new_text \
             or "Response:" in new_text \
-            or "Comment:" in new_text:
+            or "Comment:" in new_text \
+            or "Commentary:" in new_text:
             break
         else:
             if sandbox_enabled:

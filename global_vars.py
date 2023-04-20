@@ -3,7 +3,7 @@ import yaml
 from transformers import GenerationConfig
 from chats.constraints import ConstraintsConfig
 
-from models import alpaca_model
+from models import alpaca_model, stablelm
 # from models import flan_alpaca
 
 def initialize_globals(args):
@@ -16,8 +16,12 @@ def initialize_globals(args):
 
     # if "flan" in args.base_url:
     #     model_type = "flan"
-    if "gpt4-alpaca" in args.ft_ckpt_url:
-        model_type = "alpaca-gpt4"                
+    if "stablelm" in args.base_url:
+        model_type = "stablelm"
+    # elif "gpt4all" in args.ft_ckpt_url:
+    #     model_type = "alpaca-gpt4"
+    elif "gpt4-alpaca" in args.ft_ckpt_url:
+        model_type = "alpaca-gpt4"
     elif "alpaca" in args.ft_ckpt_url:
         model_type = "alpaca"
     else:
@@ -43,6 +47,8 @@ def initialize_globals(args):
 def get_load_model(model_type):
     if model_type == "alpaca" or model_type == "alpaca-gpt4":
         return alpaca_model.load_model
+    elif model_type == "stablelm":
+        return stablelm.load_model
     # elif model_type == "flan":
     #     return flan_alpaca.load_model
     else:

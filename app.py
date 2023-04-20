@@ -9,7 +9,7 @@ from miscs.strings import DEFAULT_EXAMPLES
 from miscs.styles import PARENT_BLOCK_CSS
 from miscs.strings import SPECIAL_STRS
 
-from utils import get_chat_interface
+from utils import get_chat_interface, get_chat_manager
 from pingpong.gradio import GradioAlpacaChatPPManager
 
 def reset_textbox():
@@ -19,7 +19,7 @@ def reset_textbox():
 def reset_everything():
     return (
         [],
-        {"ppmanager": GradioAlpacaChatPPManager()},
+        {"ppmanager": get_chat_manager(global_vars.model_type)},
         "",
         "",
     )
@@ -33,10 +33,10 @@ def toggle_inspector(view_selector):
 def run(args):
     global_vars.initialize_globals(args)
     chat_interface = get_chat_interface(global_vars.model_type)
-    
+
     with gr.Blocks(css=PARENT_BLOCK_CSS, theme='ParityError/Anime') as demo:
         chat_state = gr.State({
-            "ppmanager": GradioAlpacaChatPPManager()
+            "ppmanager": get_chat_manager(global_vars.model_type)
         })
 
         with gr.Column(elem_id='col_container'):
@@ -44,8 +44,8 @@ def run(args):
                 ["with context inspector", "without context inspector"],
                 value="without context inspector",
                 label="View Selector", 
-                info="How do you like to use this application?"
-                visible=args.chat_only_mode
+                info="How do you like to use this application?",
+                visible=not args.chat_only_mode
             )
             
             with gr.Row():
@@ -61,7 +61,7 @@ def run(args):
                     gr.Markdown("#### What model actually sees")
                     inspector = gr.Textbox(label="", lines=28, max_lines=28, interactive=False)
 
-            with gr.Accordion("Acknowledgements", open=False, visible=args.chat_only_mode):
+            with gr.Accordion("Acknowledgements", open=False, visible=not args.chat_only_mode):
                 gr.Markdown(f"{BOTTOM_LINE}")
 
         view_selector.change(
